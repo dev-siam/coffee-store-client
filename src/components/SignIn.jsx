@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 import { Link } from "react-router-dom";
 
-
 export default function SignIn() {
   const { signInUser } = useContext(AuthContext);
 
@@ -12,15 +11,13 @@ export default function SignIn() {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
-    
     signInUser(email, password)
       .then((result) => {
-        
         // update last login time
         const lastSignInTime = result?.user?.metadata?.lastSignInTime;
         const loginInfo = { email, lastSignInTime };
 
-        fetch(`http://localhost:5000/users`, {
+        fetch(`https://coffee-store-server-plum-five.vercel.app/users`, {
           method: "PATCH",
           headers: {
             "content-type": "application/json",
@@ -29,14 +26,13 @@ export default function SignIn() {
         })
           .then((res) => res.json())
           .then((data) => {
-            console.log("sign in info updated in db", data);
+            // console.log("sign in info updated in db", data);
           });
       })
       .catch((error) => {
-        console.log(error);
+        // console.log(error);
       });
   };
-
 
   return (
     <div className="hero bg-base-200 min-h-screen">
